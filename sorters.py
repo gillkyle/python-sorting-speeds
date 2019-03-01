@@ -70,8 +70,42 @@ def selection_sort(data, index, descending=False):
 
 def quick_sort(data, index, descending=False):
     '''Sorts using the quick sort algorithm'''
-    # replace this with your own algorithm (do not use Python's sort)
-    data.sort(key=lambda t: t[index], reverse=descending)
+    def recurse(lst, first, last):
+        if first < last:
+            split_index = split(lst, first, last)
+
+            # sort each split section again
+            recurse(lst, first, split_index - 1)
+            recurse(lst, split_index + 1, last)
+
+    def split(lst, first, last):
+        # TODO update this pivot to the median of 3 strategy
+        pivot = lst[first][index]
+
+        left_cursor = first + 1
+        right_cursor = last 
+
+        srted = False
+        while not srted:
+            while left_cursor <= right_cursor and lst[left_cursor][index] <= pivot:
+                left_cursor += 1
+
+            while right_cursor >= left_cursor and lst[right_cursor][index] >= pivot:
+                right_cursor -= 1
+
+            if right_cursor < left_cursor:
+                # finished sorting the current split list
+                srted = True
+            else:
+                # swap the values in the list
+                lst[left_cursor][index], lst[right_cursor][index] = lst[right_cursor][index], lst[left_cursor][index]
+                
+        lst[first][index], lst[right_cursor][index] = lst[right_cursor][index], lst[first][index] 
+        # this could work with the left_cursor too
+        return right_cursor
+
+    recurse(data, 0, len(data) - 1)
+    return data
 
 
 def python_sort(data, index, descending=False):
