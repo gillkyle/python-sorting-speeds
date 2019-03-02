@@ -4,16 +4,16 @@ from timeit import Timer
 import sorters
 from collections import namedtuple
 
-Result = namedtuple('Result', ( 'sorter', 'seconds' ))
-FileInfo = namedtuple('FileInfo', ( 'filename', 'datatype', 'numtimes' ))
+Result = namedtuple('Result', ('sorter', 'seconds'))
+FileInfo = namedtuple('FileInfo', ('filename', 'datatype', 'numtimes'))
 
 SOURCE_FILES = [
-    FileInfo( 'list0.txt', int,   100000 ),
-    FileInfo( 'list1.txt', int,   100000 ),
-    FileInfo( 'list2.txt', int,   100000 ),
-    FileInfo( 'list3.txt', int,   100    ),
-    FileInfo( 'list4.txt', int,   100000 ),
-    FileInfo( 'list5.txt', float, 100000 ),
+    FileInfo('list0.txt', int,   100),
+    FileInfo('list1.txt', int,   100),
+    FileInfo('list2.txt', int,   100),
+    FileInfo('list3.txt', int,   1),
+    FileInfo('list4.txt', int,   100),
+    FileInfo('list5.txt', float, 100),
 ]
 
 SORTERS = [
@@ -39,14 +39,14 @@ def main():
         with open(fi.filename) as fin:
             lst = []
             for line in fin:
-                lst.append([ fi.datatype(line.strip()) ])
+                lst.append([fi.datatype(line.strip())])
             master_lsts.append(lst)
 
     # extend list3 significantly so we have a really long list
     lst3 = deepcopy(master_lsts[3])
     master_lsts[3] = []
     for i in range(500):
-        master_lsts[3].extend([ [row[0]+i] for row in lst3 ])
+        master_lsts[3].extend([[row[0]+i] for row in lst3])
 
     # time it with all the sorts
     for i, lst in enumerate(master_lsts):
@@ -69,7 +69,6 @@ def main():
                 round(result.seconds - results[0].seconds, 3),
                 results[0].sorter,
             ))
-
 
 
 ### Main runner ###
